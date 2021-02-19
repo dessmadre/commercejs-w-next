@@ -1,65 +1,52 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import { useContext } from 'react';
 
-export default function Home() {
-  return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+import { client } from 'lib/commerce';
+import { ProductFeed, ProductCard } from 'components/products';
+import CartContext from 'context/cart/cartContext';
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+export default function Index({ products }) {
+	const cartContext = useContext(CartContext);
+	const { addToCart } = cartContext;
+	const featured = products[0];
+	const restProducts = products.slice(1);
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
+	return (
+		<main className='bg-gray-50 px-24 pt-20'>
+			<ProductFeed>
+				<ProductCard
+					cols={'full'}
+					name={featured.name}
+					description={featured.description}
+					image={featured.media.source}
+					price={featured.price.formatted_with_symbol}
+					permalink={featured.permalink}
+					onClick={() => addToCart(featured.id, 1)}
+				/>
+				{restProducts.map((product, i) => {
+					return (
+						<ProductCard
+							key={i}
+							name={product.name}
+							description={product.description}
+							image={product.media.source}
+							permalink={product.permalink}
+							price={product.price.formatted_with_symbol}
+							permalink={product.permalink}
+							onClick={() => addToCart(product.id, 1)}
+						/>
+					);
+				})}
+			</ProductFeed>
+		</main>
+	);
+}
 
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
+export async function getStaticProps() {
+	const { data: products } = await client.products.list();
 
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
-    </div>
-  )
+	return {
+		props: {
+			products,
+		},
+	};
 }
