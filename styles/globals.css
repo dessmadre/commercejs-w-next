@@ -13,6 +13,8 @@
 		fill: #a5b4fc;
 	}
 
+	/* Cart menu start */
+
 	.menu-closed {
 		top: -100vh;
 	}
@@ -20,5 +22,31 @@
 	.menu-active {
 		@apply absolute w-2/5 py-5 px-6 bg-gray-100  right-24 mt-20 z-50 shadow-xl;
 		top: 0;
+	}
+
+	/* Cart Menu End + CheckOut Form Start */
+
+	.checkout__form-group-1 {
+		@apply w-full sm:w-1/5 px-3 mb-3 md:mb-0;
+	}
+
+	.checkout__form-group-2 {
+		@apply w-full sm:w-2/5 px-3 mb-3 md:mb-0;
+	}
+
+	.checkout__form-group-half {
+		@apply w-full sm:w-1/2 px-3 mb-3 md:mb-0;
+	}
+
+	.checkout__form-group-full {
+		@apply w-full  px-3 mb-3 md:mb-0;
+	}
+
+	.checkout__form-label {
+		@apply block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2;
+	}
+
+	.checkout__form-input {
+		@apply appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white;
 	}
 }

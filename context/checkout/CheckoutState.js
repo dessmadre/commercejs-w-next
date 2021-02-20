@@ -52,20 +52,19 @@ const CheckoutState = props => {
 	// Use commerce.js checkout generateToken method to generate a checkout token object from a cart.id which can be used to initiate the process of capturing an order
 	const generateCheckoutTokenFromCart = cartId => {
 		return client.checkout
-			.generateToken(cartId, { type: 'cart' })
-			.then(checkoutToken => {
+			.generateTokenFrom('cart', cartId)
+			.then(res => {
 				dispatch({
 					type: GENERATE_CHECKOUT_TOKEN,
-					payload: checkoutToken,
+					payload: res,
 				});
-				return checkoutToken;
+				return res;
 			})
 			.catch(err => {
+				console.log('Error while generating checkout token object', err);
 				dispatch({
 					type: ABORT_CHECKOUT,
 				});
-				console.log('Error while generating checkout token', err);
-				throw new Error(err);
 			});
 	};
 
@@ -107,6 +106,7 @@ const CheckoutState = props => {
 					type: UPDATE_CHECKOUT_LIVE_OBJECT,
 					payload: res.live,
 				});
+
 				return res;
 			})
 			.catch(err => {

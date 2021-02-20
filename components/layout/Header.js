@@ -20,7 +20,7 @@ export default function Header() {
 	};
 
 	return (
-		<nav className='px-24 flex items-center flex-1 bg-gray-100 w-screen fixed z-50 '>
+		<nav className='px-24 flex items-center flex-1 bg-gray-100 w-screen fixed z-50'>
 			<div className='flex-1'>
 				<Link href='/'>
 					<div className='relative w-10 h-10 cursor-pointer'>
@@ -53,7 +53,7 @@ export default function Header() {
 			<Cart
 				className={`${
 					open ? 'top-0 opacity-100' : 'menu-closed opacity-0'
-				} absolute w-2/5 py-5 px-6 bg-gray-100 right-24 mt-20 z-50 shadow-xl transition-all ease-in duration-700`}
+				} absolute w-2/5 py-5 px-6 bg-gray-100 right-24 mt-20 z-20 shadow-xl transition-all ease-in duration-700`}
 			/>
 		</nav>
 	);

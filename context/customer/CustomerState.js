@@ -7,7 +7,7 @@ import { SET_CUSTOMER, CLEAR_CUSTOMER } from '../types';
 
 const CustomerState = ({ children }) => {
 	const initialState = {
-		customer: {},
+		customer: null,
 	};
 
 	const [state, dispatch] = useReducer(CustomerReducer, initialState);
