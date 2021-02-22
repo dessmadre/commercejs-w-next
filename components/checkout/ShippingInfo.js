@@ -1,3 +1,5 @@
+import usePrev from 'utils/usePrev';
+
 export const ShippingInfo = ({
 	fName,
 	lName,
@@ -9,14 +11,18 @@ export const ShippingInfo = ({
 	countries = {},
 	shippingStateProvince,
 	subdivisions = {},
-	fulfillOptions,
+	shippingOptions,
 	fulfillOption,
 	handleShippingCountryChange,
 	handleSubdivisionChange,
+	onFormChange,
 }) => {
 	return (
 		<>
 			<div className='flex flex-wrap -mx-3 mb-6'>
+				<h4 className='w-full px-3 mb-5 text-2xl font-semibold'>
+					Customer Information
+				</h4>
 				<div className='checkout__form-group-2'>
 					<label className='checkout__form-label' htmlFor='fName'>
 						First Name
@@ -27,7 +33,8 @@ export const ShippingInfo = ({
 						name='fName'
 						value={fName}
 						type='text'
-						placeholder='Jane'
+						onChange={onFormChange}
+						placeholder=''
 					/>
 				</div>
 				<div className='checkout__form-group-1'>
@@ -38,7 +45,7 @@ export const ShippingInfo = ({
 						className='checkout__form-input'
 						id='mInitial'
 						type='text'
-						placeholder='S'
+						placeholder=''
 					/>
 				</div>
 				<div className='w-full md:w-2/5 px-3'>
@@ -50,13 +57,17 @@ export const ShippingInfo = ({
 						id='lName'
 						name='lName'
 						value={lName}
+						onChange={onFormChange}
 						type='text'
-						placeholder='Doe'
+						placeholder=''
 					/>
 				</div>
 			</div>
 
 			<div className='flex flex-wrap -mx-3 mb-6'>
+				<h4 className='w-full px-3 mb-5 text-2xl font-semibold'>
+					Shipping Information
+				</h4>
 				<div className='checkout__form-group-half'>
 					<label className='checkout__form-label' htmlFor='country'>
 						Country
@@ -64,8 +75,10 @@ export const ShippingInfo = ({
 					<select
 						className='checkout__form-input'
 						id='country'
+						name='shippingCountry'
 						value={shippingCountry}
 						onChange={handleShippingCountryChange}>
+						<option>Country</option>
 						{Object.entries(countries).map(([code, name]) => {
 							return (
 								<option value={code} key={code}>
@@ -83,6 +96,7 @@ export const ShippingInfo = ({
 						className='checkout__form-input'
 						id='city'
 						name='shippingCity'
+						onChange={onFormChange}
 						value={shippingCity}
 						type='text'
 					/>
@@ -95,6 +109,7 @@ export const ShippingInfo = ({
 						className='checkout__form-input'
 						id='address-1'
 						name='shippingStreet'
+						onChange={onFormChange}
 						value={shippingStreet}
 						type='text'
 					/>
@@ -115,13 +130,10 @@ export const ShippingInfo = ({
 						name='shippingStateProvince'
 						onChange={handleSubdivisionChange}
 						value={shippingStateProvince}>
-						<option disabled>State/Province</option>
+						<option>State/Province</option>
 						{Object.entries(subdivisions).map(([code, name]) => {
 							return (
-								<option
-									className='checkout__form-input'
-									value={code}
-									key={code}>
+								<option value={code} key={code}>
 									{name}
 								</option>
 							);
@@ -137,6 +149,7 @@ export const ShippingInfo = ({
 						id='zip'
 						name='shippingZipcode'
 						value={shippingZipcode}
+						onChange={onFormChange}
 						type='text'
 					/>
 				</div>
@@ -155,6 +168,7 @@ export const ShippingInfo = ({
 						id='email'
 						name='email'
 						value={email}
+						onChange={onFormChange}
 						type='email'
 					/>
 				</div>
@@ -166,15 +180,24 @@ export const ShippingInfo = ({
 						className='checkout__form-input'
 						id='shippingMethod'
 						name='fulfillOption'
-						value={fulfillOption.id}>
-						<option disabled>Shipping Method</option>
-						{fulfillOptions.map((method, index) => {
-							<option value={method.id} key={index}>
-								{`${method.description} - ${method.price.formatted_with_symbol}`}
-							</option>;
+						value={fulfillOption}
+						onChange={onFormChange}>
+						<option>Select a Shipping Method</option>
+						{shippingOptions.map((method, index) => {
+							return (
+								<option
+									className='checkout__form-input'
+									value={method.id}
+									key={
+										index
+									}>{`${method.description}-${method.price.formatted_with_code}`}</option>
+							);
 						})}
 					</select>
 				</div>
+				<p>prev: {usePrev(fulfillOption)}</p>
+				<hr />
+				<p>current {fulfillOption}</p>
 			</div>
 		</>
 	);

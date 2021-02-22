@@ -1,4 +1,5 @@
 import { ProductActions } from 'components/products';
+import { useRouter } from 'next/router';
 
 export const ProductDetails = ({
 	name,
@@ -7,14 +8,18 @@ export const ProductDetails = ({
 	permalink,
 	onClick,
 }) => {
+	const router = useRouter();
+	const active = router.pathname;
 	return (
 		<div className='ml-5 pl-5 p-2 w-2/5  flex flex-col h-96 justify-between'>
-			<h3 className='text-2xl font-semibold text-gray-800'>{name}</h3>
+			<h3 className='text-4xl font-semibold text-gray-800'>{name}</h3>
 			<div
-				className='text-sm text-gray-400'
+				className={`${
+					active === '/[permalink]' ? 'block' : 'hidden'
+				} lg:text-lg lg:text-gray-400`}
 				dangerouslySetInnerHTML={{ __html: description }}
 			/>
-			<p className='mt-5 text-2xl font-bold text-gray-700'>{price}</p>
+			<p className='mt-5 text-3xl font-bold text-gray-700'>{price}</p>
 			<ProductActions permalink={permalink} onClick={onClick} />
 		</div>
 	);

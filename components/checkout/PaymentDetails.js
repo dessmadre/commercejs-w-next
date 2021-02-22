@@ -1,20 +1,66 @@
-export const PaymentDetails = () => {
+import { CardElement } from '@stripe/react-stripe-js';
+
+export const PaymentDetails = ({
+	cardNum,
+	expMonth,
+	expYear,
+	ccv,
+	onFormChange,
+}) => {
 	return (
 		<div className='flex flex-wrap -mx-3 mb-6'>
-			<div className='w-full px-3'>
-				<label
-					className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-					htmlFor='grid-password'>
+			<h4 className='w-full px-3 mb-5 text-2xl font-semibold'>
+				Payment Information
+			</h4>
+			<CardElement />
+			{/* <div className='checkout__form-group-full'>
+				<label className='checkout__form-label' htmlFor='cardNum'>
 					Credit/debit card
 				</label>
-				<textarea
-					className=' no-resize appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 h-48 resize-none'
-					id='message'></textarea>
-				<p className='text-gray-600 text-xs italic'>
-					Re-size can be disabled by set by resize-none / resize-y / resize-x /
-					resize
-				</p>
+				<input
+					className='checkout__form-input no-resize'
+					id='cardNum'
+					name='cardNum'
+					value={cardNum}
+					onChange={onFormChange}
+				/>
 			</div>
+			<div className='checkout__form-group-2'>
+				<label className='checkout__form-label' htmlFor='cardNum'>
+					Exp. Month
+				</label>
+				<input
+					className='checkout__form-input no-resize'
+					id='expMonth'
+					name='expMonth'
+					value={expMonth}
+					onChange={onFormChange}
+				/>
+			</div>
+			<div className='checkout__form-group-2'>
+				<label className='checkout__form-label' htmlFor='cardNum'>
+					Exp. Year
+				</label>
+				<input
+					className='checkout__form-input no-resize'
+					id='expYear'
+					name='expYear'
+					value={expYear}
+					onChange={onFormChange}
+				/>
+			</div>
+			<div className='checkout__form-group-1'>
+				<label className='checkout__form-label' htmlFor='cardNum'>
+					CVC
+				</label>
+				<input
+					className='checkout__form-input no-resize'
+					id='ccv'
+					name='ccv'
+					value={ccv}
+					onChange={onFormChange}
+				/>
+			</div> */}
 		</div>
 	);
 };

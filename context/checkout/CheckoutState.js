@@ -39,6 +39,7 @@ const CheckoutState = props => {
 					type: GET_SHIPPING_OPTIONS,
 					payload: shippingOptions,
 				});
+				return shippingOptions;
 			})
 			.catch(err => {
 				dispatch({
@@ -69,20 +70,20 @@ const CheckoutState = props => {
 	};
 
 	// Validate a shippinig method for the provided chekcout token, and applies it to the checkout
-	const setShippingOptionInCheckout = async (
+	const setShippingOptionInCheckout = (
 		checkoutId,
 		shippingOptionId,
 		country,
 		region,
 	) => {
 		return client.checkout
-			.getShippingOptions(checkoutId, {
+			.checkShippingOption(checkoutId, {
 				shipping_option_id: shippingOptionId,
 				country,
 				region,
 			})
 			.then(res => {
-				if (res.valid) {
+				if (res.valid === 'true') {
 					dispatch({
 						type: UPDATE_CHECKOUT_LIVE_OBJECT,
 						payload: res.live,
@@ -102,6 +103,7 @@ const CheckoutState = props => {
 		return client.checkout
 			.checkDiscount(checkoutId, { code })
 			.then(res => {
+				console.log(res.live);
 				dispatch({
 					type: UPDATE_CHECKOUT_LIVE_OBJECT,
 					payload: res.live,

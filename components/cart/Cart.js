@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import CartContext from 'context/cart/cartContext';
 import { CartDivider, CartItem, CartItems, CartActions } from 'components/cart';
 
-export const Cart = ({ className, onClick }) => {
+export const Cart = ({ className }) => {
 	const cartContext = useContext(CartContext);
 	const { cart, retrieveCart, updateCartItem, removeFromCart } = cartContext;
 
@@ -43,7 +43,7 @@ export const Cart = ({ className, onClick }) => {
 				<CartDivider />
 				<h3 className='text-2xl font-bold'>Total: </h3>
 				<span className='text-xl'>{cart.subtotal?.formatted_with_symbol}</span>
-				<CartActions onClick={onClick} />
+				{cart.line_items?.length > 0 ? <CartActions /> : ''}
 			</div>
 		</motion.div>
 	);
