@@ -12,7 +12,10 @@ export default (state, action) => {
 		case GENERATE_CHECKOUT_TOKEN:
 			return {
 				...state,
-				checkout: { ...state.checkout, checkoutToken: action.payload },
+				checkout: {
+					...state.checkout,
+					checkoutToken: action.payload,
+				},
 			};
 		case GET_SHIPPING_OPTIONS:
 			return {
@@ -35,10 +38,7 @@ export default (state, action) => {
 				...state,
 				checkout: {
 					...state.checkout,
-					checkoutToken: {
-						...state.checkout.checkoutToken,
-						live: action.payload,
-					},
+					live: action.payload,
 				},
 			};
 		case ABORT_CHECKOUT:

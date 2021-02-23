@@ -20,11 +20,11 @@ export const OrderItem = ({
 				/>
 			</div>
 			<div className='flex flex-col items-start w-2/5 ml-5	'>
-				<p className='text-2xl font-semibold'>{name}</p>
+				<p className='text-lg md:text-2xl font-semibold'>{name}</p>
 			</div>
-			<div className='flex flex-col justify-center'>
+			<div className='flex flex-col md:justify-center'>
 				<input
-					className='p-1 w-2/5 self-start text-center rounded-md bg-white cursor-pointer'
+					className='p-1 w-2/5 self-center text-center rounded-md bg-white cursor-pointer'
 					type='text'
 					disabled
 					name='quantity'

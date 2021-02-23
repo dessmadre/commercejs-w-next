@@ -20,8 +20,9 @@ const CheckoutState = props => {
 		checkout: {
 			shippingOptions: [],
 			checkoutToken: {},
+			live: {},
 		},
-		oderReceipt: {},
+		orderReceipt: {},
 	};
 
 	const [state, dispatch] = useReducer(CheckoutReducer, initialState);
@@ -83,7 +84,7 @@ const CheckoutState = props => {
 				region,
 			})
 			.then(res => {
-				if (res.valid === 'true') {
+				if (res.valid) {
 					dispatch({
 						type: UPDATE_CHECKOUT_LIVE_OBJECT,
 						payload: res.live,
@@ -108,8 +109,6 @@ const CheckoutState = props => {
 					type: UPDATE_CHECKOUT_LIVE_OBJECT,
 					payload: res.live,
 				});
-
-				return res;
 			})
 			.catch(err => {
 				console.log('Error while updating live object with discount code', err);
@@ -139,6 +138,7 @@ const CheckoutState = props => {
 				checkout: state.checkout,
 				checkoutToken: state.checkout.checkoutToken,
 				shippingOptions: state.checkout.shippingOptions,
+				live: state.checkout.live,
 				orderReceipt: state.orderReceipt,
 				getShippingOptionsForCheckout,
 				generateCheckoutTokenFromCart,

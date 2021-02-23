@@ -6,12 +6,17 @@ import CheckoutContext from 'context/checkout/checkoutContext';
 
 export const OrderReview = () => {
 	const checkoutContext = useContext(CheckoutContext);
-	const { checkoutToken } = checkoutContext;
+	const { checkoutToken, live } = checkoutContext;
 
 	return (
-		<div>
-			<div className='flex justify-between item-center flex-wrap'>
-				<h3 className='text-3xl font-bold'>Your items:</h3>
+		<div className='flex justify-between h-full item-center flex-wrap'>
+			<div className='flex justify-between w-full'>
+				<h3 className='text-3xl font-bold'>Items in your cart</h3>
+				<span className='text-3xl font-bold'>
+					{checkoutToken.live?.line_items.length}
+				</span>
+			</div>
+			<div className='flex flex-col justify-between w-full'>
 				<CartDivider />
 				<OrderItems>
 					{checkoutToken.live?.line_items.map(product => {
@@ -28,16 +33,13 @@ export const OrderReview = () => {
 					})}
 				</OrderItems>
 				<CartDivider />
-				<h3 className='text-2xl font-bold'>Items: </h3>
-				<span className='text-xl'>
-					{checkoutToken.live?.subtotal.formatted_with_symbol}
-				</span>
-				<h3 className='text-2xl font-bold'>Shipping: </h3>
-				<span className='text-xl'>
-					{checkoutToken.live?.subtotal.formatted_with_symbol}
+			</div>
+			<div className='flex justify-between items-end w-full'>
+				<h3 className='text-3xl font-bold'>Subtotal: </h3>
+				<span className='text-3xl font-bold'>
+					{live.total_with_tax?.formatted_with_symbol}
 				</span>
 			</div>
-			{/* <pre>{JSON.stringify(checkoutToken, null, 2)}</pre> */}
 		</div>
 	);
 };

@@ -195,9 +195,6 @@ export const ShippingInfo = ({
 						})}
 					</select>
 				</div>
-				<p>prev: {usePrev(fulfillOption)}</p>
-				<hr />
-				<p>current {fulfillOption}</p>
 			</div>
 		</>
 	);

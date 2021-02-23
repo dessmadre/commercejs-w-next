@@ -4,7 +4,7 @@ export const PaymentDetails = ({
 	cardNum,
 	expMonth,
 	expYear,
-	ccv,
+	cvc,
 	onFormChange,
 }) => {
 	return (
@@ -12,8 +12,7 @@ export const PaymentDetails = ({
 			<h4 className='w-full px-3 mb-5 text-2xl font-semibold'>
 				Payment Information
 			</h4>
-			<CardElement />
-			{/* <div className='checkout__form-group-full'>
+			<div className='checkout__form-group-full'>
 				<label className='checkout__form-label' htmlFor='cardNum'>
 					Credit/debit card
 				</label>
@@ -56,11 +55,11 @@ export const PaymentDetails = ({
 				<input
 					className='checkout__form-input no-resize'
 					id='ccv'
-					name='ccv'
-					value={ccv}
+					name='cvc'
+					value={cvc}
 					onChange={onFormChange}
 				/>
-			</div> */}
+			</div>
 		</div>
 	);
 };

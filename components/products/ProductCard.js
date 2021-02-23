@@ -16,7 +16,7 @@ export const ProductCard = ({
 	return (
 		<div className={`col-span-${cols} px-4 py-8`}>
 			<div
-				className={`flex w-full m-5 ${
+				className={`flex md:flex-row flex-col w-full m-0 md:m-5 ${
 					shouldShow === '/' ? 'hover:shadow-xl' : ''
 				}  p-2 overflow:hidden pb-8`}>
 				<ProductImage image={image} permalink={permalink} />

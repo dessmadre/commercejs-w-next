@@ -1,7 +1,6 @@
-import { useContext, useState, useEffect, useRef } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-
-import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
+import { motion } from 'framer-motion';
 
 import ccFormat from 'utils/ccFormat';
 import usePrev from 'utils/usePrev';
@@ -9,10 +8,9 @@ import { client } from 'lib/commerce';
 import { ShippingInfo, OrderReview } from 'components/checkout';
 import CartContext from 'context/cart/cartContext';
 import CheckoutContext from 'context/checkout/checkoutContext';
+import { PaymentDetails } from './PaymentDetails';
 
 export const Checkout = () => {
-	const stripe = useStripe();
-	const elements = useElements();
 	const router = useRouter();
 	const cartContext = useContext(CartContext);
 	const checkoutContext = useContext(CheckoutContext);
@@ -25,7 +23,7 @@ export const Checkout = () => {
 		captureOrder,
 		checkoutToken,
 		shippingOptions,
-		orderReceipt,
+		live,
 	} = checkoutContext;
 
 	// Customer Details
@@ -34,7 +32,6 @@ export const Checkout = () => {
 		lName: '',
 		email: '',
 	});
-
 	// Shipping Details
 	const [shipping, setShipping] = useState({
 		deliveryCountry: 'US',
@@ -48,16 +45,11 @@ export const Checkout = () => {
 
 	// Payment Details
 	const [payment, setPayment] = useState({
-		cardNum: ccFormat(''),
-		expMonth: '',
-		expYear: '',
-		ccv: '',
-		billingZipCode: '',
-	});
-
-	const [gateway, setGateway] = useState({
-		selectedGateway: 'stripe',
-		loading: false,
+		cardNum: ccFormat('4242424242424242'),
+		expMonth: '11',
+		expYear: '24',
+		cvc: '123',
+		billingZipCode: '91402',
 	});
 
 	// Fullfillment and Shipping data
@@ -77,15 +69,14 @@ export const Checkout = () => {
 		shippingZipcode,
 		shippingCountry,
 	} = shipping;
-	const { cardNum, expMonth, expYear, ccv, billingZipCode } = payment;
-	const { selectedGateway, loading } = gateway;
-
+	const { cardNum, expMonth, expYear, cvc } = payment;
 	const { fulfillCountries, fulfillSubdivisions, fulfillOption } = fulfill;
 
 	useEffect(() => {
 		if (cart && cart.total_items === 0) {
 			redirectOutOfCheckout();
 		}
+
 		generateToken();
 
 		if (fulfillOption !== '') {
@@ -197,7 +188,7 @@ export const Checkout = () => {
 		e.preventDefault();
 
 		const newOrder = {
-			line_items: checkoutToken.live.line_items,
+			line_items: live.line_items,
 			customer: {
 				firstname: fName,
 				lastname: lName,
@@ -215,71 +206,28 @@ export const Checkout = () => {
 				shipping_method: fulfillOption,
 			},
 			payment: {
-				gateway: selectedGateway,
+				gateway: 'test_gateway',
+				card: {
+					number: cardNum,
+					expiry_month: expMonth,
+					expiry_year: expYear,
+					cvc: cvc,
+					postal_zip_code: shippingZipcode,
+				},
 			},
 		};
 
-		if (selectedGateway === 'stripe') {
-			return stripe
-				.createPaymentMethod({
-					type: 'card',
-					card: elements.getElement(CardElement),
-				})
-				.then(res => {
-					if (res.error) {
-						handleCaptureError(res.error.message);
-						return;
-					}
-
-					setGateway({
-						loading: true,
-					});
-
-					captureOrder(checkoutToken.id, {
-						...newOrder,
-						payment: {
-							...newOrder.payment,
-							stripe: {
-								payment_method_id: res.paymentMethod.id,
-							},
-						},
-					})
-						.then(handleCaptureSuccess)
-						.catch(error => {
-							console.log(error);
-						});
-
-					stripe.handleCardAction(error.data.error.param).then(result => {
-						if (result.error) {
-							console.log(result.error);
-							return;
-						}
-
-						captureOrder(checkoutToken.id, {
-							...newOrder,
-							payment: {
-								...newOrder.payment,
-								stripe: {
-									payment_intent_id: result.paymentIntent.id,
-								},
-							},
-						})
-							.then(handleCaptureSuccess)
-							.catch(error => {
-								console.log('You broke it', error);
-							});
-					});
-				})
-				.catch(error => {
-					console.log('You broke it', error);
-				});
-		}
+		captureOrder(checkoutToken.id, newOrder)
+			.then(handleCaptureSuccess)
+			.catch(err => {
+				console.log('There was an error capturing the order', err);
+			});
 	};
 
 	return (
-		<main className='grid grid-cols-1 grid-rows-2 md:grid-cols-2 gap-5'>
+		<main className='grid grid-cols-1 grid-rows-2 lg:grid-cols-2 gap-5'>
 			<div className='w-full row-span-full p-5'>
-				<form className='w-full ' onChange={onFormChange}>
+				<form className='w-full' onChange={onFormChange}>
 					<ShippingInfo
 						fName={fName}
 						lName={lName}
@@ -301,23 +249,23 @@ export const Checkout = () => {
 					{/* Shippinpg Details Ends + Payment Method Starts */}
 					{/* Component will be imported from stripe */}
 
-					<div className='flex flex-wrap -mx-3 mb-6'>
-						<h4 className='w-full px-3 mb-5 text-2xl font-semibold'>
-							Payment Information
-						</h4>
-						<div className='w-4/5 p-5 text-xl bg-gray-200 ml-3'>
-							<CardElement />
-						</div>
-					</div>
+					<PaymentDetails
+						cardNum={cardNum}
+						expMonth={expMonth}
+						expYear={expYear}
+						cvc={cvc}
+					/>
 					{/* Shipping Method Ends + Order Completion starts */}
 					<div className='md:flex md:items-center'>
 						<div className='w-3/5'>
-							<button
+							<motion.button
+								whileHover={{ scale: 1.05 }}
+								whileTap={{ scale: 0.95 }}
 								className='text-center bg-indigo-300 hover:bg-indigo-400 py-2 px-5 font-semibold border-gray-600 border-2 text-gray-600'
 								type='submit'
 								onClick={captureOrderFromCheckout}>
 								Make payment
-							</button>
+							</motion.button>
 						</div>
 					</div>
 				</form>

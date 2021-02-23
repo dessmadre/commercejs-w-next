@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 
 export const ProductImage = ({ image, permalink }) => {
 	return (
-		<div className='p-2 w-3/5 h-96 flex items-center justify-center cursor-pointer'>
+		<div className='p-2 md:w-3/5 w-full h-96 flex items-center justify-center cursor-pointer'>
 			<Link href={`/${permalink}`}>
 				<motion.div
 					className='relative w-full h-full'
