@@ -11,7 +11,10 @@ export const ProductDetails = ({
 	const router = useRouter();
 	const active = router.pathname;
 	return (
-		<div className='ml:0 md:ml-5 pl-0 md:pl-5 p-2 md:w-2/5 w-full md:mt-0 mt-5 flex flex-col h-72 md:h-96 justify-between'>
+		<div
+			className={`ml:0 md:ml-5 pl-0 md:pl-5 p-2 md:w-2/5 w-full md:mt-0 mt-5 flex flex-col ${
+				active === '/[permalink]' ? 'h-80' : 'h-72'
+			} md:h-96 justify-between `}>
 			<h3 className='text-2xl md:text-4xl font-semibold text-gray-800'>
 				{name}
 			</h3>
