@@ -7,7 +7,3 @@ I wanted to build a E-commerce app using a headless CMS, I chose to use Commerce
 ## Challenges
 
 Learning the Commerce.js interface was important I had an issue where I wasn't receiving shipping options during checkout. It turned out that I forgot to click on a setting which allowed that information to display. In order to to persist the data from Commer.js I implement state-managment with React's Context Api which allowed to me cache the data. I had difficulty with the implentation of it, but got it to work in the end.
-
-## Tech Used
-
-This app is built using Next.js, it fetches data from a Commerce.js database. State is managed using React's Context API. Components are styled using Tailwind CSS and and animated using Framer-Motion.
