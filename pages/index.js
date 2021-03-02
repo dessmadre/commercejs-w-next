@@ -15,7 +15,7 @@ export default function Index({ products }) {
 		<>
 			<Header />
 			<main className='bg-gray-50 px-6 md:px-24 pt-20'>
-				<ProductFeed>
+				<ProductFeed cols={2}>
 					<ProductCard
 						cols={'full'}
 						name={featured.name}
