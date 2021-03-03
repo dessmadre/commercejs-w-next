@@ -15,7 +15,7 @@ export const ProductActions = ({ permalink, onClick }) => {
 					whileTap={{ scale: 0.95 }}
 					className={` ${
 						shouldShow === '/[permalink]' ? 'hidden' : ''
-					} w-full text-center mb-5 md:text-lg text-md bg-indigo-300 hover:bg-indigo-400 border-gray-600  py-2 px-5 border-2 font-semibold text-gray-600`}>
+					} w-5/6 text-center mb-5 md:text-lg text-md bg-indigo-300 hover:bg-indigo-400 border-gray-600  py-2 px-5 border-2 font-semibold text-gray-600`}>
 					View Product{' '}
 				</motion.a>
 			</Link>
@@ -23,7 +23,7 @@ export const ProductActions = ({ permalink, onClick }) => {
 				onClick={onClick}
 				whileHover={{ scale: 1.05 }}
 				whileTap={{ scale: 0.95 }}
-				className='w-full text-center bg-green-200 hover:bg-green-300 py-2 px-5 font-semibold border-gray-600 border-2 text-gray-600'>
+				className='w-5/6 text-center bg-green-200 hover:bg-green-300 py-2 px-5 font-semibold border-gray-600 border-2 text-gray-600'>
 				Add To Cart
 			</motion.a>
 		</div>
